@@ -3,43 +3,47 @@ package com.minimarket.service;
 import com.minimarket.domain.dto.request.CustomerRequestDto;
 import com.minimarket.domain.dto.response.CustomerResponseDto;
 import com.minimarket.domain.entity.Customer;
+import com.minimarket.mapper.CustomerMapper;
 import com.minimarket.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class CustomerService {
     private final CustomerRepository customerRepository;
+    private final CustomerMapper customerMapper;
 
-    public void createUser(CustomerRequestDto customerRequestDto){
+    public void createCustomer(CustomerRequestDto customerRequestDto){
         if (customerRepository.existsByEmail(customerRequestDto.getEmail())){
             throw new RuntimeException("A user with the email is already exists");
         }
 
-        Customer customer = Customer.builder()
-                .name(customerRequestDto.getName())
-                .email(customerRequestDto.getEmail())
-                .build();
+        Customer customer = customerMapper.toEntity(customerRequestDto);
 
         customerRepository.save(customer);
     }
 
     public CustomerResponseDto getCustomer(Long id){
-        Optional<Customer> customerBox = customerRepository.findById(id);
-        Customer customer = customerBox.orElseThrow(
+        Customer customer = customerRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("Customer not exist")
         );
-        CustomerResponseDto customerResponseDto = CustomerResponseDto.builder()
-                .id(customer.getId())
-                .name(customer.getName())
-                .build();
+        CustomerResponseDto customerResponseDto = customerMapper.toDto(customer);
 
         return customerResponseDto;
+    }
 
+    public List<CustomerResponseDto> getAll(){
+        List<Customer> customers = customerRepository.findAll();
+        if (customers.isEmpty()){
+            throw new RuntimeException("There are no customers in database");
+        }
+        List<CustomerResponseDto> customerResponseDtos = customerMapper.toListDto(customers);
+        return customerResponseDtos;
     }
 
 }
