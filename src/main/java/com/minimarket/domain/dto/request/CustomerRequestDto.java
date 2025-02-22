@@ -2,12 +2,14 @@ package com.minimarket.domain.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.logging.log4j.message.Message;
+
 
 @Getter
 @Setter
+@Builder
 public class CustomerRequestDto {
 
     @NotBlank(message = "Customer name is required")

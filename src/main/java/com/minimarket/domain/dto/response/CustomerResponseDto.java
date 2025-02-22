@@ -1,12 +1,14 @@
 package com.minimarket.domain.dto.response;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Builder;
 
-@Getter
-@Setter
-public class CustomerResponseDto {
-    private Long id;
-    private String name;
-    private String email;
+
+@Builder
+public record CustomerResponseDto(
+        Long id,
+        String name,
+        String email,
+        Integer phoneNumber,
+        String address
+) {
 }

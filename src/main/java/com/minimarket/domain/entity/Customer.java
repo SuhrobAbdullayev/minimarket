@@ -1,5 +1,6 @@
 package com.minimarket.domain.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,6 +31,11 @@ public class Customer implements Serializable {
     private String name;
 
     private String email;
+
+    @Column(name = "phone_number")
+    private Integer phoneNumber;
+
+    private String address;
 
     @OneToOne(mappedBy = "customer")
     private Order order;

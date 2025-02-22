@@ -33,6 +33,8 @@ public class Product implements Serializable {
 
     private Double price;
 
+    private String description;
+
     @ManyToMany(mappedBy = "products")
     private Set<Order> orders = new HashSet<>();
 
