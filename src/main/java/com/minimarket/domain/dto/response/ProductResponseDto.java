@@ -6,7 +6,7 @@ import lombok.Builder;
 public record ProductResponseDto(
         Long id,
         String name,
-        Double price,
+        Double cost,
         String description
 ) {
 }
