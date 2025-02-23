@@ -1,9 +1,9 @@
 package com.minimarket.controller;
 
 import com.minimarket.domain.dto.ResponseDTO;
-import com.minimarket.domain.dto.request.CustomerRequestDto;
-import com.minimarket.domain.dto.response.CustomerResponseDto;
-import com.minimarket.service.CustomersService;
+import com.minimarket.domain.dto.request.OrderRequestDto;
+import com.minimarket.domain.dto.response.OrderResponseDto;
+import com.minimarket.service.OrdersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -18,31 +18,30 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/customers")
+@RequestMapping("/orders")
 @RequiredArgsConstructor
-public class CustomerController {
-    private final CustomersService customersService;
+public class OrdersController {
+    private final OrdersService ordersService;
 
     @PostMapping("/create")
-    public ResponseDTO<String> createCustomer(@RequestBody CustomerRequestDto dto) {
-        customersService.createCustomer(dto);
-        return ResponseDTO.ok(null, "The customer is created");
+    public ResponseDTO<Long> createOrder(@RequestBody OrderRequestDto dto) {
+        return ResponseDTO.ok(ordersService.createOrder(dto), "The order is created");
     }
 
     @GetMapping("/{id}")
-    public ResponseDTO<CustomerResponseDto> getCustomer(@PathVariable Long id) {
-        return ResponseDTO.ok(customersService.getCustomerById(id), "Muaffaqiyatli");
+    public ResponseDTO<OrderResponseDto> getOrder(@PathVariable Long id) {
+        return ResponseDTO.ok(ordersService.getByCustomerId(id), "Muaffaqiyatli");
 
     }
 
     @GetMapping("/all")
-    public ResponseDTO<List<CustomerResponseDto>> getAllCustomers(
-            @RequestParam(required = false) String name
+    public ResponseDTO<List<OrderResponseDto>> getAllOrders(
+            @RequestParam(required = false) Long customerId
     ) {
         MultiValueMap<String, Object> filter = new LinkedMultiValueMap<>();
-        filter.add("name", name);
+        filter.add("customerId", customerId);
 
-        return ResponseDTO.ok(customersService.getAll(filter), "Muaffaqiyatli");
+        return ResponseDTO.ok(ordersService.getAll(filter), "Muaffaqiyatli");
     }
 
 }

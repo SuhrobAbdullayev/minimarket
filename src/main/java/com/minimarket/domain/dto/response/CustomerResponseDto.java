@@ -1,14 +1,14 @@
 package com.minimarket.domain.dto.response;
 
-import lombok.Builder;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.Data;
 
+@Data
+@Entity
+public class CustomerResponseDto {
+    @Id
+    private Long id;
 
-@Builder
-public record CustomerResponseDto(
-        Long id,
-        String name,
-        String email,
-        Integer phoneNumber,
-        String address
-) {
+    private String name;
 }

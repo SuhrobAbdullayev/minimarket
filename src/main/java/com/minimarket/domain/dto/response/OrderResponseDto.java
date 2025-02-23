@@ -1,13 +1,16 @@
 package com.minimarket.domain.dto.response;
 
-import lombok.Builder;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.Data;
 
-import java.util.Set;
+@Data
+@Entity
+public class OrderResponseDto {
+    @Id
+    private Long id;
 
-@Builder
-public record OrderResponseDto(
-        Long id,
-        CustomerResponseDto customer,
-        Set<ProductResponseDto> products
-) {
+    private Long customerId;
+
+    private Boolean status;
 }
